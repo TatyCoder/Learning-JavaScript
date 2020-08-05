@@ -75,10 +75,19 @@ const addMovieHandler = () => {
   renderMovies();
 };
 
-const searchMovieHandler = () => {
+// With a normal anonymous function:
+const searchMovieHandler = function () {
+  console.log(this);  // logs button id = search-btn
   const filterTerm = document.getElementById('filter-title').value;
   renderMovies(filterTerm);
 };
+
+// With an arrow function:
+// const searchMovieHandler = () => {
+//   console.log(this); (see next video: objects-14)
+//   const filterTerm = document.getElementById('filter-title').value;
+//   renderMovies(filterTerm);
+// };
 
 addMovieBtn.addEventListener('click', addMovieHandler);
 searchBtn.addEventListener('click', searchMovieHandler);
