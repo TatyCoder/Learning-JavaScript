@@ -1,4 +1,4 @@
-class Product { 
+class Product {
   // title = 'DEFAULT';
   // imageUrl;
   // description;
@@ -26,28 +26,27 @@ class Component {
 
   createRootElement(tag, cssClasses, attributes) {
     const rootElement = document.createElement(tag);
-    if (cssClasses) { 
+    if (cssClasses) {
       rootElement.className = cssClasses;
     }
-    if (attributes && attributes.length > 0) {   
-      for (const attr of attributes) { 
-        rootElement.setAttribute(attr.name, attr.value); 
+    if (attributes && attributes.length > 0) {
+      for (const attr of attributes) {
+        rootElement.setAttribute(attr.name, attr.value);
       }
     }
     document.getElementById(this.hookId).append(rootElement);
-    return rootElement;  // 'this' was removed because I should return the const, 
-    // we're not storing it in any instance property here.
+    return rootElement;
   }
 }
 
-// To inherit from this 'Component' class I add the keyword 'extends' following by the  
-// class from which we want to extend (I can only extend from one class):
 class ShoppingCart extends Component {
   items = [];
 
   set cartItems(value) {
     this.items = value;
-    this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount.toFixed(2)}</h2>`;
+    this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount.toFixed(
+      2
+    )}</h2>`;
   }
 
   get totalAmount() {
@@ -57,13 +56,8 @@ class ShoppingCart extends Component {
     );
     return sum;
   }
-  
-  /* New. If the subclass (class which extends another class) does not have a constructor,
-  the constructor of the parent class is automatically called. 
-  Here I want to call this constructor and, from here, call the parent constructor; 
-  for that I use the keyword 'super':
-  */
-    constructor(renderHookId) {
+
+  constructor(renderHookId) {
     super(renderHookId);
   }
 
@@ -73,34 +67,34 @@ class ShoppingCart extends Component {
     this.cartItems = updatedItems;
   }
 
-  // Changes:
-  render() { 
-    // Now I use this.createRootElement(tag, cssClass):
+  render() {
     const cartEl = this.createRootElement('section', 'cart');
-    // Remains the same because it's the logic:
     cartEl.innerHTML = `
       <h2>Total: \$${0}</h2>
       <button>Order Now!</button>
     `;
-    // cartEl.className = 'cart';  --> got rid of this because class in now inside const cartEl.
     this.totalOutput = cartEl.querySelector('h2');
-    // return cartEl;  --> deleted here because no longer needs to return it.
-    // I'm not interested in the cart element anymore.
   }
 }
 
-class ProductItem {
-  constructor(product) {
+// Now extends:
+class ProductItem extends Component {
+  //  Now has a 2nd parameter and 'super'
+  constructor(product, renderHookId) {
+    super(renderHookId);  // I call 'super' before 'this' (following line)
     this.product = product;
   }
 
   addToCart() {
     App.addProductToCart(this.product);
   }
-
+  
+  // Changes:
   render() {
-    const prodEl = document.createElement('li');
-    prodEl.className = 'product-item';
+    // Now I use this.createRootElement(tag, cssClass):
+    const prodEl = this.createRootElement('li', 'product-item');
+    // prodEl.className = 'product-item';  --> no longer required because class in now inside const prodEl.
+    // Remains the same because it's the logic:
     prodEl.innerHTML = `
         <div>
           <img src="${this.product.imageUrl}" alt="${this.product.title}" >
@@ -114,11 +108,12 @@ class ProductItem {
       `;
     const addCartButton = prodEl.querySelector('button');
     addCartButton.addEventListener('click', this.addToCart.bind(this));
-    return prodEl;
+    // return prodEl;  --> deleted here because no longer needs to return it.
   }
 }
 
-class ProductList {
+// Now extends:
+class ProductList extends Component {
   products = [
     new Product(
       'A Pillow',
@@ -134,32 +129,41 @@ class ProductList {
     )
   ];
 
-  constructor() {}
+  // Changes:
+  constructor(renderHookId) {
+    super(renderHookId);
+  }
 
+  // Changes:
   render() {
-    const prodList = document.createElement('ul');
-    prodList.className = 'product-list';
+    // Now using 3 arguments:
+    this.createRootElement('ul', 'product-list', [
+    // the 3rd argument is an array of attributes (name, value):
+      new ElementAttribute('id', 'prod-list')
+    ]);
+    // prodList.className = 'product-list'; --> got rid of this because class. 
     for (const prod of this.products) {
-      const productItem = new ProductItem(prod);
-      const prodEl = productItem.render();
-      prodList.append(prodEl);
+      // Here now I want to pass in an ID of the element where this item should be added to:
+      const productItem = new ProductItem(prod, 'prod-list');
+      productItem.render();  // the 'const prodEl =' was deleted here since render doesn't return it anymore.
+   // prodList.append(prodEl);  --> deleted here. 
     }
-    return prodList;
+ // return prodList;  --> deleted here because no longer needs to return it.
   }
 }
 
 // Changes:
 class Shop {
   render() {
-    const renderHook = document.getElementById('app');
-
-    this.cart = new ShoppingCart('app');  // Now forward 'app'.
-    this.cart.render();  // the 'const cartEl =' was deleted here.
-    const productList = new ProductList();
-    const prodListEl = productList.render();
-
-    // renderHook.append(cartEl); --> Deleted here, no longer needed.
-    renderHook.append(prodListEl);
+    // I don't need to get access to my element by ID here anymore:
+    //  const renderHook = document.getElementById('app'); --> Deleted here.
+    
+    this.cart = new ShoppingCart('app');
+    this.cart.render();
+    const productList = new ProductList('app');  // I also forward app.
+    // And now productList will be rendered:
+    productList.render();  // the 'const prodListEl =' was deleted here.
+    // renderHook.append(prodListEl); --> Deleted here, I don't want to append anything.
   }
 }
 
