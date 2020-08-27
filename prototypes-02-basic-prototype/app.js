@@ -42,7 +42,9 @@ Person.prototype = {
   printAge() {
     console.log(this.age);
   }
-}; // Instead of {constructor: ƒ} it will log a new object:
+}; 
+// When I assign a new prototype I'll replace the old default object which is assigned 
+// as a prototype with a new object. So instead of {constructor: ƒ} it will log this:
 /* {printAge: ƒ}
 printAge: ƒ printAge()
 __proto__: Object
