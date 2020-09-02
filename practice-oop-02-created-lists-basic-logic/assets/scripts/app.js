@@ -3,9 +3,9 @@ class Tooltip {}
 class ProjectItem {}
 
 class ProjectList {
-  constructor(type) {  // type for choosing between 'active or 'finished' projects (id).
+  constructor(type) {  // type for choosing between 'active' or 'finished' projects (id).
     const prjItems = document.querySelectorAll(`#${type}-projects li`);  
-    // CSS selector for all list items with these IDs.
+    // CSS selector for all list items with these IDs (type is dynamic).
     console.log(prjItems);
   }
 }
