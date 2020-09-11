@@ -39,7 +39,8 @@ class Tooltip {
 }
 
 class ProjectItem {
-  hasActiveTooltip = false;  // New property
+  // New property to check whether I have an active tooltip so that I can't open more than one tooltip for a given project:
+  hasActiveTooltip = false;  // 'false' because initially there is no active tooltip.
 
   constructor(id, updateProjectListsFunction, type) {
     this.id = id;
