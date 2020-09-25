@@ -66,6 +66,8 @@ class Tooltip extends Component {
     const x = hostElPosLeft + 20;
     const y = hostElPosTop + hostElHeight - 10;
 
+    // I need to position the element in the 'absolute' coordinate system on the 
+    // screen, otherwise it's always positioned relative in the document flow:
     tooltipElement.style.position = 'absolute';
     tooltipElement.style.left = x + 'px';
     tooltipElement.style.top = y + 'px';

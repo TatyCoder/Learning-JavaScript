@@ -59,7 +59,7 @@ class Tooltip extends Component {
     const hostElPosTop = this.hostElement.offsetTop;
     const hostElHeight = this.hostElement.clientHeight;
 
-    // New, to correct the tooltip positioning:
+    // New, to correct the tooltip positioning, by how far you scrolled in the container:
     const parentElementScrolling = this.hostElement.parentElement.scrollTop;
 
     const x = hostElPosLeft + 15;
