@@ -51,5 +51,8 @@ console.log(calculateVatAmount(100));
 console.log(calculateVatAmount(200));
 
 /* Notes: A function inside of a function can access everything which is  
-available outside of the inner function, because of the scope.
+available outside of the inner function, because of the scope. It means that 
+the inner function can use all the variables or parameters of the outer function 
+and all variables that are defined globally. The outer function can't access 
+the inner functions specific constants or variables.
 */
