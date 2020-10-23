@@ -34,7 +34,7 @@ function trackUserHandler() {
       return setTimer(2000);  // I can return this inside of this function.
       // The overall promise is now set back from being resolved to being pending.
     })
-    .then(data => {  // I can now add a new .then block after the first one.
+    .then(data => {  // I can now add a new then() block after the first one.
       // Here I get the data of this inner promise which is the timer data.
       console.log(data, positionData); 
     });
@@ -48,5 +48,5 @@ button.addEventListener('click', trackUserHandler);
 
 /* Notes: a promise can be pending or be resolved or have an error (failed).
 Promise chaining: I wait for a promise to finish, to resolve, and then I make it 
-into the next .then block and execute that with the data of the returned promise.
+into the next then() block and execute that with the data of the returned promise.
 */
