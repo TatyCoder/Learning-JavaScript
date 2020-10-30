@@ -8,14 +8,14 @@ function sendHttpRequest(method, url, data) {
 
     xhr.open(method, url);  // Changed: method and url parameters, for flexibility.
 
-    xhr.responseType = 'json';
+    xhr.responseType = 'json';  // Response type will always be JSON.
 
     xhr.onload = function() {
       resolve(xhr.response);  // Here forward xhr.response because that's the response data.
       // const listOfPosts = JSON.parse(xhr.response);
     };
 
-    xhr.send(JSON.stringify(data));
+    xhr.send(JSON.stringify(data));  // To append data to the outgoing request.
   });
 
   return promise;
@@ -23,11 +23,12 @@ function sendHttpRequest(method, url, data) {
 
 // New function:
 async function fetchPosts() {
+  // I would get the response data here by awaiting for the response of sendHttpRequest:
   const responseData = await sendHttpRequest(
     'GET',
     'https://jsonplaceholder.typicode.com/posts'
   );
-  const listOfPosts = responseData;
+  const listOfPosts = responseData;  // Now store responseData in listOfPosts.
   for (const post of listOfPosts) {
     const postEl = document.importNode(postTemplate.content, true);
     postEl.querySelector('h2').textContent = post.title.toUpperCase();
@@ -36,7 +37,7 @@ async function fetchPosts() {
   }
 }
 
-// New function:
+// New function, a request that adds data on the server:
 async function createPost(title, content) {
   const userId = Math.random();
   const post = {
@@ -46,7 +47,13 @@ async function createPost(title, content) {
   };
 
   sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
+  // With the 3rd argument this will be converted to JSON and attached to the outgoing request.
 }
 
 fetchPosts();
 createPost('DUMMY', 'A dummy post!');
+
+/* Notes: for a post request where I want to create data on the server, I need to add 
+the data I want to create to the outgoing request and to do that, I need to tweak the 
+sendHttpRequest function by adding the 'data' argument.
+*/
