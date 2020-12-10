@@ -1,7 +1,7 @@
 const storeBtn = document.getElementById('store-btn');
 const retrBtn = document.getElementById('retrieve-btn');
 
-// For global access:
+// Define it globally to make it available in the whole script:
 let db;
 
 /* The first step with IndexedDB is to create a database or open a connection to an 
@@ -53,14 +53,17 @@ dbRequest.onerror = function(event) {
 };
 
 storeBtn.addEventListener('click', () => {
+  // To check if db is set or not, so that I don't try to work with it if it doesn't exist yet:
   if (!db) {
     return;
   }
+  // To add an item, I need to repeat previous code here:
   const productsStore = db
     .transaction('products', 'readwrite')
     .objectStore('products');
   productsStore.add({
-    id: 'p2',
+    // A new product:
+    id: 'p2', 
     title: 'A Second Product',
     price: 122.99,
     tags: ['Expensive', 'Luxury']
@@ -68,12 +71,14 @@ storeBtn.addEventListener('click', () => {
 });
 
 retrBtn.addEventListener('click', () => {
+  // To get an item, I need to repeat previous code here:
   const productsStore = db
     .transaction('products', 'readwrite')
     .objectStore('products');
   const request = productsStore.get('p2');
 
   request.onsuccess = function() {
+    // I'll have a result property which should be the item that was retrieved:
     console.log(request.result);
   }
 });
