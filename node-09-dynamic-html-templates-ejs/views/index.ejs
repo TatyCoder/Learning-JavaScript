@@ -1,0 +1,19 @@
+<!-- Type html:5 gives me a basic skeleton: -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>NodeJS Demo</title>
+  </head>
+  <body>
+    <!-- <%= %> special syntax which the ejs package understands to inject dynamic content: -->
+    <h1>Hello <%= user %></h1>
+    <!-- I can refer to any variable name ('user') which I plan on providing to this view (see app.js) -->
+    <form method="POST" action="/">
+      <input name="username" type="text" />
+      <button type="submit">Send</button>
+    </form>
+  </body>
+</html>
