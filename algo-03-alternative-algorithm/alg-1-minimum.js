@@ -13,6 +13,12 @@ function getMin(numbers) {
   return currentMinimum;
 }
 
+const testNumbers = [3, 1, 2];
+
+const min = getMin(testNumbers);
+
+console.log(min);
+
 // Solving this differently with a new function:
 function getMin2(numbers) {
   if (!numbers.length) {
@@ -43,8 +49,8 @@ function getMin2(numbers) {
   return numbers[0];
 }
 
-const testNumbers = [3, 1, 2]; // 1st iteration: [1, 3, 2] => 2nd iteration: [1, 2, 3]
+const testNumbers2 = [3, 1, 2]; // 1st iteration: [1, 3, 2] => 2nd iteration: [1, 2, 3]
 
-const min = getMin2(testNumbers);
+const min2 = getMin2(testNumbers2);
 
-console.log(min);
+console.log(min2);
