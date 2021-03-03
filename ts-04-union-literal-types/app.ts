@@ -6,9 +6,10 @@ function add(a: number, b: number) {
   return a + b;
 }
 
-type PrintMode = 'console' | 'alert';
+type PrintMode = 'console' | 'alert';  // This is an union type of literal types.
+// type syntax: I define the type of data on the right side. I can use it in different places of my app.
 
-function printResult(result: string | number, printMode: PrintMode) {
+function printResult(result: string | number, printMode: PrintMode) {  // Union types can be used with any types.
   if (printMode === 'console') {
     console.log(result);
   } else if (printMode === 'alert') {
@@ -41,5 +42,5 @@ buttonElement.addEventListener('click', () => {
   // results[0].print();
   printResult(result, 'console');
   printResult(result, 'alert');
-  // printResult(result, 'window');
+  // printResult(result, 'window'); // I'll get an error because this is not allowed in my union type of literal types.
 });
